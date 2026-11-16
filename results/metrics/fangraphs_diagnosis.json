@@ -1,0 +1,50 @@
+{
+  "pypi": {
+    "url": "https://pypi.org/pypi/pybaseball/json",
+    "status": 200,
+    "final_url": "https://pypi.org/pypi/pybaseball/json",
+    "redirects": [],
+    "retry_after": null,
+    "content_type": "application/json",
+    "latest_version": "2.2.7"
+  },
+  "upstream": {
+    "url": "https://raw.githubusercontent.com/jldbc/pybaseball/master/pybaseball/datasources/fangraphs.py",
+    "status": 200,
+    "final_url": "https://raw.githubusercontent.com/jldbc/pybaseball/master/pybaseball/datasources/fangraphs.py",
+    "redirects": [],
+    "retry_after": null,
+    "content_type": "text/plain; charset=utf-8",
+    "endpoint_lines": [
+      "_FG_LEADERS_URL = \"/leaders-legacy.aspx\"",
+      "    ROOT_URL: str = \"https://www.fangraphs.com\"",
+      "    QUERY_ENDPOINT: str = _FG_LEADERS_URL",
+      "            root_url=self.ROOT_URL,"
+    ]
+  },
+  "legacy": {
+    "url": "https://www.fangraphs.com/leaders-legacy.aspx?pos=all&stats=bat&type=8&lg=all&qual=0&season=2024&season1=2024&ind=1",
+    "status": 200,
+    "final_url": "https://www.fangraphs.com/leaders/major-league?pos=all&stats=bat&type=8&lg=all&qual=0&season=2024&season1=2024&ind=1",
+    "redirects": [
+      {
+        "status": 308,
+        "location": "/leaders/major-league?pos=all&stats=bat&type=8&lg=all&qual=0&season=2024&season1=2024&ind=1"
+      }
+    ],
+    "retry_after": null,
+    "content_type": "text/html; charset=utf-8",
+    "has_legacy_table": false,
+    "snippet": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><script async=\"\" src=\"https://tally.so/widgets/embed.js\"></script><script async=\"\" data-id=\"100553825\" src=\"//static.getclicky.com/js\"></script><meta na"
+  },
+  "leaderboard": {
+    "url": "https://www.fangraphs.com/leaders/major-league?pos=all&stats=bat&lg=all&qual=0&season=2024&season1=2024&ind=1",
+    "status": 200,
+    "final_url": "https://www.fangraphs.com/leaders/major-league?pos=all&stats=bat&lg=all&qual=0&season=2024&season1=2024&ind=1",
+    "redirects": [],
+    "retry_after": null,
+    "content_type": "text/html; charset=utf-8",
+    "has_legacy_table": false,
+    "snippet": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><script async=\"\" src=\"https://tally.so/widgets/embed.js\"></script><script async=\"\" data-id=\"100553825\" src=\"//static.getclicky.com/js\"></script><meta na"
+  }
+}

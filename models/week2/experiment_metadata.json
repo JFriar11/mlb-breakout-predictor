@@ -1,0 +1,266 @@
+{
+  "dataset_sha256": "ffdeb29f99d8a29074df068ca066d701a1e469c8c9c7722fbe4d23c13f0a36b9",
+  "python": "3.12.1",
+  "packages": {
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2"
+  },
+  "feature_sets": {
+    "baseline": [
+      "age",
+      "wrc_plus"
+    ],
+    "traditional": [
+      "age",
+      "pa",
+      "wrc_plus",
+      "woba",
+      "iso",
+      "babip",
+      "bb_rate",
+      "k_rate",
+      "chase_rate",
+      "contact_rate",
+      "swstr_rate"
+    ],
+    "traditional_statcast": [
+      "age",
+      "pa",
+      "wrc_plus",
+      "woba",
+      "iso",
+      "babip",
+      "bb_rate",
+      "k_rate",
+      "chase_rate",
+      "contact_rate",
+      "swstr_rate",
+      "avg_exit_velocity",
+      "hard_hit_rate",
+      "barrel_rate",
+      "avg_launch_angle",
+      "xba",
+      "xwoba"
+    ]
+  },
+  "threshold": 0.5,
+  "training_prevalence": 0.16,
+  "splits": [
+    {
+      "split": "train",
+      "feature_seasons": "2017, 2018, 2021, 2022",
+      "outcome_seasons": "2018, 2019, 2022, 2023",
+      "observations": 800,
+      "positives": 128,
+      "prevalence": 0.16
+    },
+    {
+      "split": "validation",
+      "feature_seasons": "2023",
+      "outcome_seasons": "2024",
+      "observations": 207,
+      "positives": 36,
+      "prevalence": 0.17391304347826086
+    },
+    {
+      "split": "test",
+      "feature_seasons": "2024",
+      "outcome_seasons": "2025",
+      "observations": 199,
+      "positives": 24,
+      "prevalence": 0.12060301507537688
+    }
+  ],
+  "experiments": {
+    "M1": {
+      "model_name": "Logistic Regression",
+      "feature_set": "baseline",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": NaN,
+          "strategy": "median"
+        },
+        "scaler": {
+          "copy": true,
+          "with_mean": true,
+          "with_std": true
+        },
+        "model": {
+          "C": 1.0,
+          "class_weight": null,
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        }
+      },
+      "pipeline_sha256": "eff99788497c7a5e1c8dd4879bbc66c95a4d34fd409f25c20325012d732b966c",
+      "validation_predictions_sha256": "3f1a6caa37d0f459858b5a805b268675b939211ff9b23c8e0a3a1474bc58449c"
+    },
+    "M2": {
+      "model_name": "Logistic Regression",
+      "feature_set": "traditional",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": NaN,
+          "strategy": "median"
+        },
+        "scaler": {
+          "copy": true,
+          "with_mean": true,
+          "with_std": true
+        },
+        "model": {
+          "C": 1.0,
+          "class_weight": null,
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        }
+      },
+      "pipeline_sha256": "77617e3f8094c6f2a00da6d11282af0205442a74e6f4d25dadccb34ca83367b8",
+      "validation_predictions_sha256": "47a1553a43f5f2d62643b39f7082cd05a6b98706684bf28a18d55942fb6811aa"
+    },
+    "M3": {
+      "model_name": "Logistic Regression",
+      "feature_set": "traditional_statcast",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": NaN,
+          "strategy": "median"
+        },
+        "scaler": {
+          "copy": true,
+          "with_mean": true,
+          "with_std": true
+        },
+        "model": {
+          "C": 1.0,
+          "class_weight": null,
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        }
+      },
+      "pipeline_sha256": "2170a6b30b90d76edef9967db98b6cc57d5502c4d7a862d6ffdc458716f8c3af",
+      "validation_predictions_sha256": "c5723c82b475a314ddfefa5fb83b282f387d8bc48bda519058b0c99d06fef4b8"
+    },
+    "M4": {
+      "model_name": "Random Forest",
+      "feature_set": "traditional",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": NaN,
+          "strategy": "median"
+        },
+        "model": {
+          "bootstrap": true,
+          "ccp_alpha": 0.0,
+          "class_weight": null,
+          "criterion": "gini",
+          "max_depth": 6,
+          "max_features": "sqrt",
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 5,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 300,
+          "n_jobs": -1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        }
+      },
+      "pipeline_sha256": "f1768de49c943c5105cfc42c3b843d141addcabfbd01656832c53850c7f395eb",
+      "validation_predictions_sha256": "ec342f2bc4cecfba19d608f998ba4ba1e9c95940352168506854a74ea6e5f669"
+    },
+    "M5": {
+      "model_name": "Random Forest",
+      "feature_set": "traditional_statcast",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": NaN,
+          "strategy": "median"
+        },
+        "model": {
+          "bootstrap": true,
+          "ccp_alpha": 0.0,
+          "class_weight": null,
+          "criterion": "gini",
+          "max_depth": 6,
+          "max_features": "sqrt",
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 5,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 300,
+          "n_jobs": -1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        }
+      },
+      "pipeline_sha256": "a093432056a668b211f1a2ac9d25ca05cba464bd5da43afe213a2d4f21bb2424",
+      "validation_predictions_sha256": "3d6dc57efe172d8b904c335f62dd39114a596a8b820c5add53846086e56ce58f"
+    }
+  },
+  "constant_predictions_sha256": "3beb907f68ae0e9fec35dfa52c5ec5ef9078075e312820ecd6e6f7c56f8a4beb"
+}

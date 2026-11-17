@@ -1,0 +1,4 @@
+split,feature_seasons,outcome_seasons,observations,positives,prevalence
+train,"2017, 2018, 2021, 2022","2018, 2019, 2022, 2023",800,128,0.16
+validation,2023,2024,207,36,0.17391304347826086
+test,2024,2025,199,24,0.12060301507537688

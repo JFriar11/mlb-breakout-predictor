@@ -1,0 +1,8 @@
+{
+  "manifest_sha256": "436e1ac4df2da5c9c2eb465b475ee806f17932d61181bd21514fa14acf08ad9a",
+  "experiment": "M2",
+  "validation_ap": 0.4840137849112437,
+  "selection_rule": "Highest validation Average Precision; ties by experiment ID",
+  "threshold": 0.5,
+  "threshold_rule": "Prespecified 0.50 cutoff"
+}

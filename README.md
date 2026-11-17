@@ -1,6 +1,6 @@
 # MLB Breakout Hitter Predictor
 
-Graduate machine learning project at Illinois Institute of Technology. Predict whether a hitter improves their following-season **FanGraphs wRC+ by at least 20 points**. Week 1 covers collection, cleaning, consecutive-season labels, validation, and exploratory analysis. No models have been trained.
+Graduate machine learning project at Illinois Institute of Technology. Predict whether a hitter improves their following-season **FanGraphs wRC+ by at least 20 points**. Week 1 covers collection, cleaning, consecutive-season labels, validation, and exploratory analysis. Week 2 trains and compares baseline classifiers on a chronological validation season.
 
 Each observation uses season t features and season t+1 outcomes. Both seasons require **at least 300 PA**. Missing outcomes are excluded, never labeled negative. This selects a retrospective qualifying population rather than a fully realistic preseason population, because future playing time is unknown.
 
@@ -118,6 +118,55 @@ The notebook and `python -m src.explore_data` share EDA code. Seven figures cove
 
 The offline test suite covers qualification boundaries, labels, consecutive seasons, duplicates, missing outcomes, feature leakage, identity conflicts, multi-team duplicate rejection, CSV imports/units, complete JSON responses, 429 cooldowns, transient backoff, cache reuse, the 2020 effect, and all EDA artifacts. Synthetic data is used only in tests, never in reported findings.
 
-## Planned Week 2
+## Week 2 · Baseline models and chronological evaluation
 
-Compare traditional and Statcast feature sets using season-based training/validation splits and class-imbalance-aware baselines. Fit preprocessing only on training seasons and exclude every target/evaluation field. Week 2 modeling is not part of this implementation.
+The primary split uses the existing Week 1 labels and the same rows for every experiment.
+
+| Partition | Feature seasons | Outcome seasons | Rows | Breakouts |
+| --- | --- | --- | ---: | ---: |
+| Training | 2017, 2018, 2021, 2022 | 2018, 2019, 2022, 2023 | 800 | 128 (16.00%) |
+| Validation | 2023 | 2024 | 207 | 36 (17.39%) |
+| Final holdout | 2024 | 2025 | 199 | 24 (12.06%) |
+
+The split code sorts by season and player ID, checks unique player-season assignments and orders outcome seasons strictly across partitions. Model inputs are restricted to the Week 1 season-t allowlist. The final holdout appears in the routine run's split audit. Validation model selection uses Average Precision (AP) with ties broken by experiment ID, and classification uses the prespecified 0.50 cutoff.
+
+| Experiment | Classifier | Features | Validation AP | ROC-AUC | F1 | Precision@20 |
+| --- | --- | --- | ---: | ---: | ---: | ---: |
+| M1 | Logistic regression | Baseline | 0.464 | 0.716 | 0.150 | 0.60 |
+| M2 | Logistic regression | Traditional | **0.484** | 0.756 | 0.195 | 0.55 |
+| M3 | Logistic regression | Traditional + Statcast | 0.451 | 0.803 | 0.245 | 0.50 |
+| M4 | Random forest | Traditional | 0.447 | 0.737 | 0.103 | 0.60 |
+| M5 | Random forest | Traditional + Statcast | 0.482 | 0.772 | 0.000 | 0.55 |
+| Constant | Training prevalence (0.16) | None | 0.174 | 0.500 | 0.000 | 0.20 |
+
+Baseline uses age and starting wRC+. Traditional adds PA, wOBA, ISO, BABIP, walk rate, strikeout rate, chase rate, contact rate and swinging-strike rate. Traditional + Statcast adds average exit velocity, hard-hit rate, barrel rate, average launch angle, xBA and xwOBA.
+
+Each pipeline fits a median imputer on the training rows. Logistic regression also fits a standard scaler and uses default regularization with a 2,000-iteration limit. Random forests use 300 trees, a maximum depth of 6 and at least five samples per leaf. Both use seed 42 and the original class frequencies.
+
+M2 leads by validation AP, while M1 and M4 each identify 12 breakouts in the top 20 versus 11 for M2. Adding Statcast changes AP by −0.0332 for logistic regression and +0.0348 for random forest. Both comparisons lose one top-20 hit. One validation season leaves uncertainty about how these differences generalize. [Week 2 report](results/metrics/week2_summary.md)
+
+### Reproduce Week 2
+
+From the repository root, use the environment and dependencies described above. The existing processed CSV is the only data input. Training and validation run offline.
+
+```bash
+source .venv/bin/activate
+python -m src.train_models
+python -m src.evaluate_models
+pytest -q
+jupyter nbconvert --to notebook --execute --inplace notebooks/02_baseline_models.ipynb
+jupyter notebook notebooks/02_baseline_models.ipynb
+```
+
+When ready to open the final holdout after validation selection, explicitly run `python -m src.evaluate_models --final-test`. It scores the frozen training-only winner at the frozen threshold, checks that the input and fitted model match the recorded run, and writes separate test predictions and metrics. The Week 2 results above are all validation results.
+
+### Week 2 files
+
+- [Feature sets](src/feature_sets.py) and [chronological split](src/split_data.py) define allowed model inputs and split membership.
+- [Training](src/train_models.py), [evaluation](src/evaluate_models.py) and [plotting](src/model_visualizations.py) produce the reusable pipelines and reports.
+- [Fitted pipelines and metadata](models/week2) include package versions, configuration and artifact hashes. Load the serialized pipelines only from a trusted checkout.
+- [Split audit](results/metrics/week2_split_summary.csv), [player-season membership](results/metrics/week2_split_rows.csv), [model comparison](results/metrics/week2_model_comparison.csv), [Statcast deltas](results/metrics/week2_statcast_comparison.csv) and [frozen validation selection](results/metrics/week2_selection.json) document the run.
+- [Validation predictions](results/predictions/week2), [top-20 leaderboard](results/predictions/week2/validation_top20.csv), [evaluation figures](results/figures/week2) and [Week 2 notebook](notebooks/02_baseline_models.ipynb) show retrospective validation results.
+- [Split tests](tests/test_split_data.py), [pipeline tests](tests/test_model_pipeline.py) and [evaluation tests](tests/test_evaluate_models.py) exercise the workflow with synthetic data.
+
+Week 3 will examine gradient boosting and XGBoost, expanding-window backtesting, age-group performance, feature importance, false-positive and false-negative case studies, and calibration improvements.

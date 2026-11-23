@@ -1,0 +1,419 @@
+{
+  "python": "3.12.1",
+  "packages": {
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "xgboost": "3.4.1"
+  },
+  "historical_csv_sha256": "53aed3e720039d8b83d1cfb5e17cbf849c3e84c1b9c8842dec0dee4b50b874c7",
+  "historical_row_count": 1007,
+  "selection_rule": "Mean fold AP; ties by experiment ID",
+  "selected": "M2",
+  "best_new": "M7",
+  "best_tree": "M5",
+  "feature_sets": {
+    "baseline": [
+      "age",
+      "wrc_plus"
+    ],
+    "traditional": [
+      "age",
+      "pa",
+      "wrc_plus",
+      "woba",
+      "iso",
+      "babip",
+      "bb_rate",
+      "k_rate",
+      "chase_rate",
+      "contact_rate",
+      "swstr_rate"
+    ],
+    "traditional_statcast": [
+      "age",
+      "pa",
+      "wrc_plus",
+      "woba",
+      "iso",
+      "babip",
+      "bb_rate",
+      "k_rate",
+      "chase_rate",
+      "contact_rate",
+      "swstr_rate",
+      "avg_exit_velocity",
+      "hard_hit_rate",
+      "barrel_rate",
+      "avg_launch_angle",
+      "xba",
+      "xwoba"
+    ]
+  },
+  "xgboost_blocker": null,
+  "experiments": {
+    "M1": {
+      "model_name": "Logistic Regression",
+      "feature_set": "baseline",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "scaler": {
+          "copy": true,
+          "with_mean": true,
+          "with_std": true
+        },
+        "model": {
+          "C": 1.0,
+          "class_weight": null,
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        }
+      }
+    },
+    "M2": {
+      "model_name": "Logistic Regression",
+      "feature_set": "traditional",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "scaler": {
+          "copy": true,
+          "with_mean": true,
+          "with_std": true
+        },
+        "model": {
+          "C": 1.0,
+          "class_weight": null,
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        }
+      }
+    },
+    "M3": {
+      "model_name": "Logistic Regression",
+      "feature_set": "traditional_statcast",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "scaler": {
+          "copy": true,
+          "with_mean": true,
+          "with_std": true
+        },
+        "model": {
+          "C": 1.0,
+          "class_weight": null,
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        }
+      }
+    },
+    "M4": {
+      "model_name": "Random Forest",
+      "feature_set": "traditional",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "model": {
+          "bootstrap": true,
+          "ccp_alpha": 0.0,
+          "class_weight": null,
+          "criterion": "gini",
+          "max_depth": 6,
+          "max_features": "sqrt",
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 5,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 300,
+          "n_jobs": -1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        }
+      }
+    },
+    "M5": {
+      "model_name": "Random Forest",
+      "feature_set": "traditional_statcast",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "model": {
+          "bootstrap": true,
+          "ccp_alpha": 0.0,
+          "class_weight": null,
+          "criterion": "gini",
+          "max_depth": 6,
+          "max_features": "sqrt",
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 5,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 300,
+          "n_jobs": -1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        }
+      }
+    },
+    "M6": {
+      "model_name": "HistGradientBoosting",
+      "feature_set": "traditional",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "model": {
+          "categorical_features": "from_dtype",
+          "class_weight": null,
+          "early_stopping": false,
+          "interaction_cst": null,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.05,
+          "loss": "log_loss",
+          "max_bins": 255,
+          "max_depth": null,
+          "max_features": 1.0,
+          "max_iter": 150,
+          "max_leaf_nodes": 15,
+          "min_samples_leaf": 20,
+          "monotonic_cst": null,
+          "n_iter_no_change": 10,
+          "random_state": 42,
+          "scoring": "loss",
+          "tol": 1e-07,
+          "validation_fraction": 0.1,
+          "verbose": 0,
+          "warm_start": false
+        }
+      }
+    },
+    "M7": {
+      "model_name": "HistGradientBoosting",
+      "feature_set": "traditional_statcast",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "model": {
+          "categorical_features": "from_dtype",
+          "class_weight": null,
+          "early_stopping": false,
+          "interaction_cst": null,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.05,
+          "loss": "log_loss",
+          "max_bins": 255,
+          "max_depth": null,
+          "max_features": 1.0,
+          "max_iter": 150,
+          "max_leaf_nodes": 15,
+          "min_samples_leaf": 20,
+          "monotonic_cst": null,
+          "n_iter_no_change": 10,
+          "random_state": 42,
+          "scoring": "loss",
+          "tol": 1e-07,
+          "validation_fraction": 0.1,
+          "verbose": 0,
+          "warm_start": false
+        }
+      }
+    },
+    "M8": {
+      "model_name": "XGBoost",
+      "feature_set": "traditional",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "model": {
+          "objective": "binary:logistic",
+          "base_score": null,
+          "booster": null,
+          "callbacks": null,
+          "colsample_bylevel": null,
+          "colsample_bynode": null,
+          "colsample_bytree": 0.8,
+          "device": null,
+          "early_stopping_rounds": null,
+          "enable_categorical": true,
+          "eval_metric": "logloss",
+          "feature_types": null,
+          "feature_weights": null,
+          "gamma": null,
+          "grow_policy": null,
+          "importance_type": null,
+          "interaction_constraints": null,
+          "learning_rate": 0.05,
+          "max_bin": null,
+          "max_cat_threshold": null,
+          "max_cat_to_onehot": null,
+          "max_delta_step": null,
+          "max_depth": 3,
+          "max_leaves": null,
+          "min_child_weight": null,
+          "missing": "NaN",
+          "monotone_constraints": null,
+          "multi_strategy": null,
+          "n_estimators": 200,
+          "n_jobs": 2,
+          "num_parallel_tree": null,
+          "random_state": 42,
+          "reg_alpha": null,
+          "reg_lambda": null,
+          "sampling_method": null,
+          "scale_pos_weight": null,
+          "subsample": 0.8,
+          "tree_method": "hist",
+          "validate_parameters": null,
+          "verbosity": null
+        }
+      }
+    },
+    "M9": {
+      "model_name": "XGBoost",
+      "feature_set": "traditional_statcast",
+      "steps": {
+        "imputer": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "model": {
+          "objective": "binary:logistic",
+          "base_score": null,
+          "booster": null,
+          "callbacks": null,
+          "colsample_bylevel": null,
+          "colsample_bynode": null,
+          "colsample_bytree": 0.8,
+          "device": null,
+          "early_stopping_rounds": null,
+          "enable_categorical": true,
+          "eval_metric": "logloss",
+          "feature_types": null,
+          "feature_weights": null,
+          "gamma": null,
+          "grow_policy": null,
+          "importance_type": null,
+          "interaction_constraints": null,
+          "learning_rate": 0.05,
+          "max_bin": null,
+          "max_cat_threshold": null,
+          "max_cat_to_onehot": null,
+          "max_delta_step": null,
+          "max_depth": 3,
+          "max_leaves": null,
+          "min_child_weight": null,
+          "missing": "NaN",
+          "monotone_constraints": null,
+          "multi_strategy": null,
+          "n_estimators": 200,
+          "n_jobs": 2,
+          "num_parallel_tree": null,
+          "random_state": 42,
+          "reg_alpha": null,
+          "reg_lambda": null,
+          "sampling_method": null,
+          "scale_pos_weight": null,
+          "subsample": 0.8,
+          "tree_method": "hist",
+          "validate_parameters": null,
+          "verbosity": null
+        }
+      }
+    }
+  }
+}

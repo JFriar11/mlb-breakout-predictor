@@ -1,0 +1,57 @@
+{
+  "protocol_sha256": "4344ee1c20424b08480bd391a7c7f4c3d37405cc4ad76b619098aec68e9605db",
+  "training_csv_sha256": "53aed3e720039d8b83d1cfb5e17cbf849c3e84c1b9c8842dec0dee4b50b874c7",
+  "training_feature_seasons": [
+    2017,
+    2018,
+    2021,
+    2022,
+    2023
+  ],
+  "latest_training_outcome_season": 2024,
+  "training_observations": 1007,
+  "training_breakouts": 164,
+  "holdout_feature_season": 2024,
+  "holdout_outcome_season": 2025,
+  "python": "3.12.1",
+  "packages": {
+    "joblib": "1.6.0",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1"
+  },
+  "models": {
+    "M2": {
+      "role": "primary",
+      "model_name": "Logistic Regression",
+      "feature_set": "traditional",
+      "predictors": [
+        "age",
+        "pa",
+        "wrc_plus",
+        "woba",
+        "iso",
+        "babip",
+        "bb_rate",
+        "k_rate",
+        "chase_rate",
+        "contact_rate",
+        "swstr_rate"
+      ],
+      "pipeline": "M2.joblib",
+      "pipeline_sha256": "3d5e66070fc0d89f71eda6fe006378c6f031ce0bcfab5c8e7a4d346b83b33b0a"
+    },
+    "M1": {
+      "role": "comparison",
+      "model_name": "Logistic Regression",
+      "feature_set": "baseline",
+      "predictors": [
+        "age",
+        "wrc_plus"
+      ],
+      "pipeline": "M1.joblib",
+      "pipeline_sha256": "fa608a0e415fb2fedf09fccad5abdf08ff5d8ca2c2ea4156226ee59395f32b52"
+    }
+  }
+}

@@ -158,7 +158,7 @@ jupyter nbconvert --to notebook --execute --inplace notebooks/02_baseline_models
 jupyter notebook notebooks/02_baseline_models.ipynb
 ```
 
-When ready to open the final holdout after validation selection, explicitly run `python -m src.evaluate_models --final-test`. It scores the frozen training-only winner at the frozen threshold, checks that the input and fitted model match the recorded run, and writes separate test predictions and metrics. The Week 2 results above are all validation results.
+The Week 2 results above are all validation results. The Week 2 `--final-test` flag belongs to the earlier single-model workflow. Follow the frozen two-model Week 4 protocol below for the project's final holdout evaluation.
 
 ### Week 2 files
 
@@ -170,3 +170,63 @@ When ready to open the final holdout after validation selection, explicitly run 
 - [Split tests](tests/test_split_data.py), [pipeline tests](tests/test_model_pipeline.py) and [evaluation tests](tests/test_evaluate_models.py) exercise the workflow with synthetic data.
 
 Week 3 will examine gradient boosting and XGBoost, expanding-window backtesting, age-group performance, feature importance, false-positive and false-negative case studies, and calibration improvements.
+
+## Week 3 · Historical backtesting and baseball interpretation
+
+Week 3 compares the five Week 2 pipelines with histogram gradient boosting
+(M6–M7) and XGBoost (M8–M9). Each booster uses either traditional predictors or
+traditional plus Statcast. All features pass the existing season-t allowlist.
+
+| Validation feature season | Training feature seasons | Latest training outcome season |
+| --- | --- | --- |
+| 2021 | 2017, 2018 | 2019 |
+| 2022 | 2017, 2018, 2021 | 2022 |
+| 2023 | 2017, 2018, 2021, 2022 | 2023 |
+
+Each evaluation assumes a prediction after the validation feature season ends.
+The latest training outcomes must be complete by then. The Week 3 loader filters
+2024 feature rows before dataset validation. The original label and 300-PA rule
+apply throughout. The shortened 2020 season leaves two transitions empty.
+
+Models are ranked by mean seasonal Average Precision, with exact ties broken by
+experiment ID. Fold metrics include ROC-AUC, Brier score, precision, recall, F1,
+Precision@10, Precision@20, Recall@20, and the 0.50 confusion matrix. Pooled
+out-of-fold metrics and age-group results are reported separately. Interpretation
+uses signed standardized M2 coefficients and repeated validation permutations
+scored by AP for the best tree and its matched feature-set variant.
+
+Sigmoid calibrators fit on predictions from inner chronological splits. The
+outer validation labels are used for evaluation. Threshold curves are
+retrospective. The [report](results/metrics/week3_summary.md) discusses how
+these findings apply to scouting shortlists and probability-based flags.
+
+### Reproduce Week 3
+
+```bash
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m src.run_week3
+python -m pytest -q
+python -m compileall -q src tests
+python -m pip check
+python -m jupyter nbconvert --to notebook --execute --inplace notebooks/03_advanced_modeling.ipynb
+```
+
+The runner recomputes every result and records the historical data fingerprint,
+exact model parameters, and package versions. Tables and the report are in
+`results/metrics/week3_*`, figures in `results/figures/week3/`, and historical
+predictions in `results/predictions/week3/`. The notebook presents the saved
+results. The full offline suite passed 72 tests in the Week 3 run.
+
+If XGBoost is unavailable, the runner reports the dependency error and completes
+M1–M7. Run `python -m pip install "xgboost>=2,<4"` and rerun to include M8–M9.
+
+### Week 4 roadmap
+
+M2 is frozen as the primary model and M1 as the comparison. Both fitted pipelines
+and the [freeze manifest](models/week4/freeze_manifest.json) were produced with
+`python -m src.freeze_week4` using eligible historical rows. Follow the
+[one-time evaluation protocol](results/metrics/week4_evaluation_protocol.md)
+for the 2024→2025 holdout. Top-20 rankings are a secondary scouting shortlist.
+The following-season 300-PA rule makes the evaluation cohort retrospective,
+so the results describe hitters who reached that playing-time minimum.
